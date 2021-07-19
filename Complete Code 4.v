@@ -149,7 +149,7 @@ module V_T #(B=7)
 input signed [B:0] o_Rx_Byte);
 parameter grad = -218;
 parameter intercept = 318.6757;
-assign temp+in <= (grad * o_Rx_Byte) + intercept;
+assign temp_in <= (grad * o_Rx_Byte) + intercept;
 endmodule
 
 
