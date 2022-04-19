@@ -1,4 +1,3 @@
-#Files for data on the lifetimes available on request.
 from cmath import pi, sqrt, tan
 import os
 from turtle import shape
@@ -12,6 +11,9 @@ import matplotlib.pyplot as plt
 os.chdir('C:/Users/me/Documents/Uni/Fourth Year/Research Project/Code Stuff')
 n_n = np.delete(np.delete(np.genfromtxt('n_n_py.csv', delimiter=','),0,0),0,1)
 b_n = np.delete(np.delete(np.genfromtxt('b_n_py.csv', delimiter=','),0,0),0,1)
+
+#Import the real data (Redshifts)
+r_d = np.delete(np.delete(np.delete(np.genfromtxt('SWIFTred.csv',delimiter=','),0,0),0,1),1,1)
 
 #Select lifetime columns
 n_n_lifetime = n_n[:,2]*3.154e+7
@@ -52,6 +54,21 @@ for i in range(len(tim)):
     #Invert redshift because at the minute it is negative because we are looking into the past
     z[i] = -z[i]
 z = np.flip(z,0)
+
+#Use the real data but convert to histogram data to compare to the simulation
+r_d_num = np.zeros(shape=(no_iter,1))
+for i in range(len(r_d_num)):
+    j=0
+    k=0
+    while j<32:
+        if (r_d[j]>z[i] and r_d[j]<z[i+1]):
+            k+=1
+            j+=1
+        else:
+            j+=1
+    r_d_num[i] = k
+
+#Fill in other arrays such as star formation rate and cosmological distance
 for i in range(len(tim)-1):
     #Use this redshift for the star formation rate formula
     sfr[i] = 0.01*(((1+(z[i]))**2.6)/(1+((1+z[i])/3.2)**6.2))
